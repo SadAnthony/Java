@@ -1,18 +1,13 @@
-import one.packet.trainning.DraftClass;
+import ru.skillbench.tasks.basics.control.ControlFlowStatements2Impl;
 
 public class Main {
 
     public static void main(String[] args) {
-
-        System.out.println(DraftClass.MAX_SIZE);
-
-        DraftClass name = new DraftClass();
-        name.setNumber(123);
-        name.setStr("Xuy");
-
-        System.out.println(name.getNumber() + name.getStr());
-
-        name.function();
+        ControlFlowStatements2Impl object1 = new ControlFlowStatements2Impl();
+        System.out.println(object1.getFunctionValue(1));
+        System.out.println(object1.decodeMark(5));
+        System.out.println(object1.initArray()[4][3]);
+        System.out.println(object1.getMaxValue(object1.initArray()));
+        System.out.println(object1.calculateSportsman(10).toString());
     }
-
 }
