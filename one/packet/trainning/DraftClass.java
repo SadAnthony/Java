@@ -3,6 +3,9 @@ package one.packet.trainning;
 public class DraftClass {
     private int number;
     private String str;
+    final static public int MAX_SIZE = 1;  //final <=> const
+    static int smthUsefulll;        //static - одна переменная на все объекты, хранится в одной и той же ячейке помяяти
+                                    //часто статик переменные - констранты final
 
     public int getNumber() {
         return number;
