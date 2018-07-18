@@ -66,7 +66,7 @@ public class EmployeeImpl implements Employee {
         if (this.getManagerName().equals("No manager")) {
             return this;
         } else {
-            return this.getTopManager();
+            return this.manager.getTopManager();
         }
     }
 }
