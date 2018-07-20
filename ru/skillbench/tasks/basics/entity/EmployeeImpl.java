@@ -60,7 +60,6 @@ public class EmployeeImpl implements Employee {
         }
     }
 
-    //TODO fix the method below
     @Override
     public Employee getTopManager() {
         if (this.getManagerName().equals("No manager")) {

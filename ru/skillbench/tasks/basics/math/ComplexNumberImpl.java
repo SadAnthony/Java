@@ -3,6 +3,7 @@ package ru.skillbench.tasks.basics.math;
 import ru.skillbench.tasks.basics.math.ComplexNumber;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class ComplexNumberImpl implements ComplexNumber {
     private double real;
@@ -45,70 +46,59 @@ public class ComplexNumberImpl implements ComplexNumber {
 
     @Override
     public void set(String value) throws NumberFormatException {
-        if (value.equals("")) {
-            throw new NumberFormatException();
-        }
-        this.real = this.imaginary = 0;
-        //the method works good with real numbers
-        if (value.charAt(value.length() - 1) != 'i') {  //if the last character isn't "i"
-            imaginary = 0.0;
-            if (value.charAt(0) == '-') {
-                real = -Integer.valueOf(value.substring(1, value.length() - 2));
-            } else if (value.charAt(0) == '+') {
-                real = Integer.valueOf(value.substring(1, value.length() - 2));
-            } else {
-                real = Integer.valueOf(value.substring(0, value.length() - 2));
-            }
-            return;
-        }
-        boolean minusFlag = false;  //flag for minus in real part
-        boolean pointFlag = false;  //flag for point in real part
-        double number = 0;          //real or imaginary part
-        int i = 0;                  //counter
-        int j = 0;          //the power of 10
-        char ch;             //for value.charAt(i)
-        while (i < value.length()) {     //through whole string
+        boolean minusReal = false;
+        boolean minusImaginary = false;
+        boolean point = false;
+        char ch;
+        double number = 0;
+        int j = 0;
+        this.imaginary = this.real = 0;
+        for (int i = 0; i < value.length(); i++) {
             ch = value.charAt(i);
-            if (Character.isDigit(ch) && !pointFlag) { //if we found a digit in the int part of number
-                number = number * 10 + (ch - '0');
-                //number += Math.pow(10, j) * (int) ch;
-            } else if (Character.isDigit(ch) && pointFlag) { //if we found a digit in the fractional part
-                number = number + (ch - '0') * 1.0 / Math.pow(10, j);
-                //number += Math.pow(-10, j) * (int) ch;
-                j++;
-            } else if (ch == '.') {    //if we found a point
-                pointFlag = true;
+            if (!Character.isDigit(ch) && ch != 'i' && ch != '+' && ch != '-' && ch != '.') {
+                throw new NumberFormatException();
+            }
+            if ((ch == '-' || ch == '+') && i == 0) {
+                minusReal = (ch == '-');
+            } else if (ch == '-' || ch == '+') {
+                if (minusReal) {
+                    this.real = -number;
+                } else {
+                    this.real = number;
+                }
+                point = false;
+                number = 0;
+                minusImaginary = (ch == '-');
+            } else if (ch == 'i' && i == value.length() - 1) {
+                if (this.real == 0) {
+                    minusImaginary = minusReal;
+                }
+                if (minusImaginary) {
+                    this.imaginary = -number;
+                } else {
+                    this.imaginary = number;
+                }
+                return;
+            } else if (ch == 'i' &&  i != value.length() - 1) {
+                throw new NumberFormatException();
+            } else if (ch == '.') {
+                point = true;
                 j = 1;
-            } else if (ch == 'i') {     //if we found a "i" character
-                if (minusFlag) {
-                    imaginary = -number;     //imaginary part is completed
-                    return;                 //job is done
-                } else {
-                    imaginary = number;
-                    return;
-                }
-            } else if (ch == '+') {     //if we found second sign
-                if (minusFlag) {        //check is the number less or greater than 0
-                    real = -number;
-                } else {
-                    real = number;
-                }
-                number = 0;
-                minusFlag = false;
-                pointFlag = false;
-            } else if (ch == '-') {
-                if (minusFlag) {        //same
-                    real = -number;
-                } else {
-                    real = number;
-                }
-                number = 0;
-                minusFlag = true;
-                pointFlag = false;
+            } else if (Character.isDigit(ch) && !point) {
+                number = number * 10 + (ch - '0');
+            } else if (Character.isDigit(ch)) {
+                number = number + (ch - '0') * 1.0 / Math.pow(10, j);
+                j++;
             } else {
                 throw new NumberFormatException();
             }
-            i++;
+        }
+        if (this.real == 0 && number != 0){
+            if (minusReal) {
+                this.real = -number;
+            } else {
+                this.real = number;
+            }
         }
     }
 
@@ -137,11 +127,17 @@ public class ComplexNumberImpl implements ComplexNumber {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (this.getClass() != obj.getClass()) return false;
-        ComplexNumberImpl that = (ComplexNumberImpl) obj;
-        return (this.real == that.real) && (this.imaginary == that.imaginary);
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) return false;
+        ComplexNumberImpl that = (ComplexNumberImpl) o;
+        final ComplexNumberImpl other = (ComplexNumberImpl) o;
+        return Objects.equals(this.real, other.real) &&
+                Objects.equals(this.imaginary, other.imaginary);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(real, imaginary);
     }
 
     @Override
