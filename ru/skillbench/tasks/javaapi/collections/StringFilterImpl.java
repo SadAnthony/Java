@@ -1,37 +1,60 @@
 package ru.skillbench.tasks.javaapi.collections;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class StringFilterImpl implements StringFilter{
+    private HashSet<String> set = new HashSet<>();
+
     @Override
     public void add(String s) {
-
+        String str = s.toLowerCase();
+        set.add(str);
     }
 
     @Override
     public boolean remove(String s) {
-        return false;
+        return set.remove(s.toLowerCase());
     }
 
     @Override
     public void removeAll() {
-
+        set.clear();
     }
 
     @Override
     public Collection<String> getCollection() {
-        return null;
+        return set;
     }
 
     @Override
     public Iterator<String> getStringsContaining(String chars) {
-        return null;
+        if (chars == null || chars.equals("")) {
+            return set.iterator();
+        }
+        HashSet<String> suppSet = new HashSet<>();
+        for (String str : set) {
+            if (str.contains(chars)) {
+                suppSet.add(str);
+            }
+        }
+        return suppSet.iterator();
     }
 
     @Override
     public Iterator<String> getStringsStartingWith(String begin) {
-        return null;
+        if (begin == null || begin.equals("")) {
+            return set.iterator();
+        }
+        String s = begin.toLowerCase();
+        HashSet<String> suppSet = new HashSet<>();
+        for (String str : set) {
+            if (str.substring(0, s.length()).equals(s)) {
+                suppSet.add(str);
+            }
+        }
+        return suppSet.iterator();
     }
 
     @Override

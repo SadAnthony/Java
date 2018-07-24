@@ -52,9 +52,6 @@ public class TreeNodeImpl implements TreeNode {
     public void addChild(TreeNode child) {
         child.setParent(this);
         this.children.add(child);
-        if (this.parent == null) {
-
-        }
     }
 
     @Override
@@ -130,14 +127,18 @@ public class TreeNodeImpl implements TreeNode {
 
     @Override
     public TreeNode findChild(Object data) {
+        TreeNode t = new TreeNodeImpl();
         if (data == null) {
             if (this.data == null) {
                 return this;
             } else if (children.isEmpty()) {
                 return null;
             } else {
-                for (TreeNode i : this.children) {
-                    return i.findParent(null);
+                for (TreeNode i : children) {
+                    t = i.findChild(null);
+                    if (t != null) {
+                        return t;
+                    }
                 }
             }
         } else {
@@ -146,8 +147,11 @@ public class TreeNodeImpl implements TreeNode {
             } else if (children.isEmpty()) {
                 return null;
             } else {
-                for (TreeNode i : this.children) {
-                    return i.findParent(null);
+                for (TreeNode i : children) {
+                    t = i.findChild(data);
+                    if (t != null) {
+                        return t;
+                    }
                 }
             }
         }
