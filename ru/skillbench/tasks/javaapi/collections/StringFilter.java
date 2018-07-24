@@ -103,7 +103,8 @@ public interface StringFilter {
     /**
      * Ищет и возвращает строки, удовлетворяющие заданному шаблону поиска, содержащему символы *
      * в качестве wildcards (на месте * в строке может быть ноль или больше любых символов).<br/>
-     * <a href="http://en.wikipedia.org/wiki/Wildcard_character#File_and_directory_patterns">Про * wildcard</a>.<br/>
+     * <a href="http://en.wikipedia.org/wiki/Wildcard_character#File_and_directory_patterns">
+     *     Про * wildcard</a>.<br/>
      * Примеры шаблонов, которым удовлетворяет строка "distribute": "distr*", "*str*", "di*bute*".<br/>
      * Упрощение: достаточно поддерживать всего два символа * в шаблоне (их может быть и меньше двух).<br/>
      * Примечание: в данной постановке задачи НЕ предполагается использование регулярных выражений
