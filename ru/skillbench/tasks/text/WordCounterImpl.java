@@ -1,6 +1,5 @@
 package ru.skillbench.tasks.text;
 
-import java.io.EOFException;
 import java.io.PrintStream;
 import java.util.*;
 
