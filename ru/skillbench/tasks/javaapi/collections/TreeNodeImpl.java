@@ -127,7 +127,7 @@ public class TreeNodeImpl implements TreeNode {
 
     @Override
     public TreeNode findChild(Object data) {
-        TreeNode t = new TreeNodeImpl();
+        TreeNode t;
         if (data == null) {
             if (this.data == null) {
                 return this;
