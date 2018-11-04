@@ -1,18 +1,18 @@
+import ru.skillbench.tasks.javax.xml.SimpleXML;
 import ru.skillbench.tasks.text.regex.*;
+import ru.skillbench.tasks.javaapi.io.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import ru.skillbench.tasks.javax.xml.SimpleXMLImpl;
 
 public class Main {
 
     public static void main(String[] args) {
-        String str = "email@dot.com  dsmkvs@dvmskl.ru";
-        PatternsImpl pat = new PatternsImpl();
-        List<String> list = new ArrayList<>(pat.findAll(str, pat.getEmailPattern()));
-        for (String obj : list) {
-            System.out.println(obj);
-        }
-        System.out.println(pat.countMatches(str, pat.getEmailPattern().toString()));
+        SimpleXML sxml = new SimpleXMLImpl();
+        System.out.println(sxml.createXML("someKindOfTag1", "<[\n" +
+                "\n" +
+                "New line\n" +
+                "\n" +
+                "]>"));
     }
 }
 
